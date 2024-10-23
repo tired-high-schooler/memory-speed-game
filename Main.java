@@ -1,35 +1,45 @@
+//imports
 import java.util.Scanner;
-import time;
 import java.util.ArrayList;
+
+//main class
 class Main{
     public static void main(String[] args) throws InterruptedException{
+
+        // setting up scanner
         Scanner sc = new Scanner(System.in);
         System.out.print("\nEnter mode: 1, 2, or 3: ");
+ 
+        //setting up variables
         int mode = sc.nextInt();
         String garbString = sc.nextLine();
         int range = 26;
-        int rand1;
-        int rand2;
-        int rand3;
-        int modNum = 0;
+        int timeMod;
+        int randNum;
         int points = 0;
+        //responce in the form of a string or char
         String responceC;
+        //responce in the form of integer
         int responceI;
         boolean running;
         boolean correct;
-        boolean mod = false;
+        //digits or characters
         String guessingUnits;
         int roundPoints = 0;
         int sum = 0;
 
-
+        // setting up array list for storage of accumulating characters
         ArrayList<Character> achar = new ArrayList<Character>();
+        
+        //asking user for mode and confirming that they picked a valid mode
         if(mode >= 1 && mode <= 3){
             running = true;
         }
         else{
             running = false;
+            System.exit(0);
         }
+        // setting up variables based on mode
         switch(mode){
             case 1:
                 range = 26;
@@ -50,28 +60,27 @@ class Main{
                 break;
         }
     
-
-        while(running && points < 100 && points > -100){
-
+        // main loop
+        while(running && points < 100 && points > -20){
+            // reseting variables after loop
             roundPoints = 0;
             correct = false;
             if(points >= 50){
-                rand1 = (int)Math.random() *modNum;
+                timeMod = (int)(Math.random() * 900) + 100;
             }
             else{
-                rand1 = 0;
+                timeMod = 1000;
             }
-            rand2 = (int)(Math.random() *range);
-            rand3 = (int)Math.random() *range;
-
+            randNum = (int)(Math.random() *range);
+            // switch based on which mode was picked
             switch(mode){
                 case 1:
                     correct = true;
-                    achar.add((char) (rand2 + 97));
+                    achar.add((char) (randNum + 97));
                     for(int i = 0; i < achar.size()  ; i++){
                         System.out.print(achar.get(i));
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(timeMod);
                     System.out.print("\033[2J\033[H");
                     System.out.println("repeat: ");
                     responceC = sc.nextLine();
@@ -100,11 +109,11 @@ class Main{
                     break;
                 case 2:
                     correct = true;
-                    achar.add((char) (rand2 + 48));
+                    achar.add((char) (randNum + 48));
                     for(int i = 0; i < achar.size()  ; i++){
                         System.out.print(achar.get(i));
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(timeMod);
                     System.out.print("\033[2J\033[H");
                     System.out.println("repeat: ");
                     responceC = sc.nextLine();
@@ -130,9 +139,9 @@ class Main{
                     System.out.print("\033[2J\033[H");
                     break;
                 case 3:
-                    System.out.println(" + " + rand2);
-                    sum += rand2;
-                    Thread.sleep(1000);
+                    System.out.println(" + " + randNum);
+                    sum += randNum;
+                    Thread.sleep(timeMod);
                     System.out.print("\033[2J\033[H");
                     System.out.println("answer: ");
                     responceI = sc.nextInt();
@@ -146,10 +155,11 @@ class Main{
                         roundPoints -= 5;
                     }
                     System.out.print("\033[2J\033[H");
-
-                    
-
                     break;
+
+                default:
+                        System.exit(0);
+                        break;
                 
             }
             points += roundPoints;
@@ -169,6 +179,7 @@ class Main{
         if(points >= 100){
             System.out.print("\033[2J\033[H");
             System.out.println("Victory");
+            // nested loop to check if mode was a compatible one with the statement
             if(mode != 3){
                 System.out.println("you just remembered a " + achar.size() + " " + guessingUnits + " sequnce!");
             }
